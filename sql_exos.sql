@@ -1,16 +1,16 @@
 use villes_fr;
 
 /* Q1 : Obtenir la liste des 10 villes les plus peuplées en 2012 */
-select ville_nom,ville_population_2012
+select ville_nom, ville_population_2012
 from villes_france_free
-group by ville_nom
+group by ville_nom,ville_population_2012
 order by ville_population_2012
 desc limit 10;
 
 /* Q2 : Obtenir la liste des 50 villes ayant la plus faible superficie */
 select ville_nom, ville_surface
 from villes_france_free
-group by ville_nom
+group by ville_nom,ville_surface
 order by ville_surface asc
 limit 50;
 
@@ -25,7 +25,7 @@ du département associé */
 select ville_nom,ville_population_2012,departement_nom
 from villes_france_free, departement
 where ville_departement = departement_code
-group by ville_nom
+group by ville_nom,ville_population_2012,departement_nom
 order by ville_population_2012
 desc limit 10;
 
@@ -35,7 +35,7 @@ en priorité les départements qui possèdent le plus de communes */
 select departement_code, departement_nom, count(ville_commune) as nbr_commune
 from departement, villes_france_free
 where departement_code = ville_departement
-group by departement_code
+group by departement_code,departement_nom
 order by nbr_commune desc;
 
 /* Q6 : Obtenir la liste des 10 plus grands départements, en terme de superficie */
@@ -57,7 +57,8 @@ plusieurs communes */
 select ville_nom_reel, count(ville_commune) as nbr_commune
 from villes_france_free
 group by ville_nom_reel
-order by nbr_commune desc;
+order by nbr_commune desc
+limit 10;
 
 /* Q9 : Obtenir en une seule requête SQL la liste des villes dont la superficie est
 supérieur à la superficie moyenne */
